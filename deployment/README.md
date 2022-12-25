@@ -15,6 +15,7 @@ Create a asgi or wsgi python file according to your framework, To know more abou
 **Example** -
 ```
 from project import app
+
 if __name__ == "__main__":
     app.run(host="localhost", port="8080")
 ```
@@ -40,17 +41,22 @@ sudo nano your-service-name.service
 Add below details in file
 ```
 [Unit]
-Description=Gunicorn instance to serve service-name-here 
+Description=Gunicorn instance to serve service-name-here
 After=network.target
+
 [Service]
 User=ubuntu
 Group=www-data
+
 # Add working dir path here
 WorkingDirectory=/home/ubuntu/{project_dir}
+
 # Added project virtual envirnment path here
 Environment="PATH=/home/ubuntu/{project_dir}/venv/bin"
+
 # Add virtual envirant path with gunicorn installed library
 ExecStart=/home/ubuntu/{project_dir}/venv/bin/gunicorn --workers 5 --threads 2 --timeout 120 --bind unix:{project_sock_file_name}.sock -m 007 wsgi:app
+
 [Install]
 WantedBy=multi-user.target
 ```
@@ -103,8 +109,10 @@ Add below details in the file
 server {
     #listen 80;
     #listen [::]:80;
+
     # Add domain name here
     server_name {pointed-domain-name.com};
+    
     # Add path of sock file which is created while creating service file.
     location / {
             include proxy_params;
